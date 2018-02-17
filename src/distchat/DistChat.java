@@ -12,6 +12,8 @@ import java.util.Scanner;
  *
  * @author Matt Q
  */
+
+// Hello world
 public class DistChat 
 {
 

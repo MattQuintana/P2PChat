@@ -9,9 +9,9 @@ import java.net.ServerSocket;
 import java.util.Scanner;
 
 /**
- *
+ *asfdgshj
  * @author Matt Q
- */
+ */ 
 
 // Hello world
 public class DistChat 

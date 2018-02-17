@@ -92,8 +92,15 @@ public class ChatClient implements Runnable{
         for (Map.Entry<String, Integer> entry : ip_table.entrySet())
         {
             try(
-                Socket new_connection = Socket(entry.getKey(), entry.getValue());    
-                    )
+                Socket new_connection = new Socket(entry.getKey(), entry.getValue());    
+                )
+            {
+            
+            }
+            catch (Exception e)
+            {
+                System.out.println("Could not create connection. ");
+            }
         }
     }
     

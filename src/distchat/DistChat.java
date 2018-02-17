@@ -6,18 +6,32 @@
 package distchat;
 
 import java.net.ServerSocket;
+import java.util.Scanner;
 
 /**
  *
  * @author Matt Q
  */
-public class DistChat {
+public class DistChat 
+{
 
+	ChatClient client = new ChatClient();
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    public static void main(String[] args) 
+    {
+        Scanner connInfo = new Scanner(System.in);
+        System.out.print("Enter an IP to connect to: ");
+        
+        String hostIP = connInfo.nextLine();
+        
+        connInfo = new Scanner(System.in);
+        System.out.print("Enter a username: ");
+        
+        String clientName = connInfo.nextLine();
+        
+        RequestJoin(hostIP, clientName);
     }
     
 }

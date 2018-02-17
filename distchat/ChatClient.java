@@ -83,6 +83,18 @@ public class ChatClient implements Runnable{
         
     }
     
+    void buildIPTable(Map<String, Integer> table)
+    {
+        ip_table = table;
+        
+        for (Map.Entry<String, Integer> entry : ip_table.entrySet())
+        {
+            try(
+                Socket new_connection = Socket(entry.getKey(), entry.getValue());    
+                    )
+        }
+    }
+    
     @Override
     public void run()
     {

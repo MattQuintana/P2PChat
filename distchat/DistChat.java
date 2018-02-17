@@ -23,18 +23,21 @@ public class DistChat
      */
     public static void main(String[] args) 
     {
-        while(true){    //Infinite loop to handle accepting clients
-            
+        while(true)	//Infinite loop to handle accepting clients
+        {    
+            // Looking for user input to get desired IP
             Scanner connInfo = new Scanner(System.in);
             System.out.print("Enter an IP to connect to: ");
 
             String hostIP = connInfo.nextLine();
 
+            // Looking for user input to get desired username
             connInfo = new Scanner(System.in);
             System.out.print("Enter a username: ");
 
             String clientName = connInfo.nextLine();
             ChatClient client = new ChatClient(clientName);
+            client.username = clientName;
             //ChatClient client = new ChatClient(clientName);
 
             //client.RequestJoin(hostIP, clientName);

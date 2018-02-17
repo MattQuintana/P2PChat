@@ -20,10 +20,12 @@ import java.util.*;
  * @author Matt Q
  */
 public class ChatClient implements Runnable{
+	// Information needed to be saved for the client
     String username; 
     String ip_addr;
     Socket clientSocket;
     
+    // Holding all information of every connected client
     Map<String, Integer> ip_table = new HashMap<String, Integer>();
     List<Socket> other_clients = new ArrayList<Socket>();
     
@@ -39,6 +41,7 @@ public class ChatClient implements Runnable{
     
     void typeMessage()
     {
+    	// Looking for user input to make their message
     	Scanner message = new Scanner(System.in);
     	System.out.print("Message: ");
     	
@@ -55,27 +58,26 @@ public class ChatClient implements Runnable{
                 PrintWriter toClient = new PrintWriter(clientSocket.getOutputStream(), true);
             )
             {
-                toClient.println(message);
+            	String finalMessage = String.format("%s: %s", username, message);
+                toClient.println(finalMessage);
             }
             catch(Exception e){
                 System.out.println("** UNABLE TO SEND MESSAGE **");
-            }
-                
-        }
-        
-        
-    }
-    
-    void sendCloseMessage()
-    {
-        // send a message to every other client that they are leaving chat
-        //  
+            }       
+        }  
     }
     
     void closeConnection()
     {
         // For whoever sent the close message, close their input socket 
         // Luis, basically close the socket and removing from IP list 
+    	
+    	// Sending message to close connection
+    	String message = String.format("%s has disconnected.\n", username);
+    	broadcastMessage(message);
+    	
+    	// LUIS, close connection below
+    	
     }
     
     void acceptConnection(String ip_addr, int port)

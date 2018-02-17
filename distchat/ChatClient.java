@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-// Making some test changes. 
+// Making some test changes and some more stuff. 
 package distchat;
 
 import java.io.BufferedReader;

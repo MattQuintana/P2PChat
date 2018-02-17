@@ -3,6 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+// Making some test changes. 
 package distchat;
 
 import java.io.BufferedReader;
@@ -38,9 +40,14 @@ public class ChatClient implements Runnable{
     void broadcastMessage()
     {
         // for every address in the table do an output stream to other client
-        for (Map.Entry<String, Integer> entry : ip_table.entrySet())
+        for (Socket client: other_clients)
         {
-            
+            try(
+                PrintWriter toClient = 
+                new PrintWriter(clientSocket.getOutputStream(), true);
+
+            )
+                
         }
         
         

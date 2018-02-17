@@ -35,7 +35,6 @@ public class DistChat
 
             String clientName = connInfo.nextLine();
             ChatClient client = new ChatClient(clientName);
-            client.username = clientName;
             //ChatClient client = new ChatClient(clientName);
 
             //client.RequestJoin(hostIP, clientName);

@@ -23,18 +23,30 @@ public class DistChat
      */
     public static void main(String[] args) 
     {
-        Scanner connInfo = new Scanner(System.in);
-        System.out.print("Enter an IP to connect to: ");
+        while(true){    //Infinite loop to handle accepting clients
+            
+            Scanner connInfo = new Scanner(System.in);
+            System.out.print("Enter an IP to connect to: ");
+
+            String hostIP = connInfo.nextLine();
+
+            connInfo = new Scanner(System.in);
+            System.out.print("Enter a username: ");
+
+            String clientName = connInfo.nextLine();
+            ChatClient client = new ChatClient(clientName);
+            //ChatClient client = new ChatClient(clientName);
+
+            //client.RequestJoin(hostIP, clientName);
+            try(ServerSocket serverSocket = new ServerSocket(port);){
+                (new Thread(new ChatClient(serverSocket.accept()))).start();
+                //Spawn a new thread with the client socket
+            }
+            catch(Exception e){
+                System.out.println("Could not connect");
+            }
+        }
         
-        String hostIP = connInfo.nextLine();
-        
-        connInfo = new Scanner(System.in);
-        System.out.print("Enter a username: ");
-        
-        String clientName = connInfo.nextLine();
-        ChatClient client = new ChatClient(clientName);
-        
-        //client.RequestJoin(hostIP, clientName);
     }
     
 }

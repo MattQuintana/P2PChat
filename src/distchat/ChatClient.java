@@ -18,10 +18,12 @@ import java.util.*;
  * @author Matt Q
  */
 public class ChatClient implements Runnable{
-    List<String> ip_table;
     String username; 
     String ip_addr;
     Socket clientSocket;
+    
+    Map<String, Integer> ip_table = new HashMap<String, Integer>();
+    List<Socket> other_clients = new ArrayList<Socket>();
     
     public ChatClient(Socket newClient)
     {
@@ -36,6 +38,11 @@ public class ChatClient implements Runnable{
     void broadcastMessage()
     {
         // for every address in the table do an output stream to other client
+        for (Map.Entry<String, Integer> entry : ip_table.entrySet())
+        {
+            
+        }
+        
         
     }
     
@@ -51,7 +58,7 @@ public class ChatClient implements Runnable{
         // Luis, basically close the socket and removing from IP list 
     }
     
-    void acceptConnection(String ip_addr)
+    void acceptConnection(String ip_addr, int port)
     {
         
     }

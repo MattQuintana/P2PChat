@@ -17,13 +17,15 @@ import java.util.*;
  *
  * @author Matt Q
  */
-public class ChatClient implements Runnable{
+public class ChatClient implements Runnable
+{
     List<String> ip_table;
     String username; 
     String ip_addr;
     Socket clientSocket;
+    boolean isConnected;
     
-    public ChatClient(Socket newClient)
+    public ChatClient(String userName)
     {
         
     }

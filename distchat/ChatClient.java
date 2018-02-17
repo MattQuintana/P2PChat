@@ -27,7 +27,7 @@ public class ChatClient implements Runnable{
     Map<String, Integer> ip_table = new HashMap<String, Integer>();
     List<Socket> other_clients = new ArrayList<Socket>();
     
-    public ChatClient(Socket newClient)
+    public ChatClient(String userName)
     {
         
     }

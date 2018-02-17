@@ -9,7 +9,7 @@ import java.net.ServerSocket;
 import java.util.Scanner;
 
 /**
- *asfdgshj
+ *
  * @author Matt Q
  */ 
 
@@ -17,7 +17,7 @@ import java.util.Scanner;
 public class DistChat 
 {
 
-	ChatClient client = new ChatClient();
+	
     /**
      * @param args the command line arguments
      */
@@ -32,8 +32,9 @@ public class DistChat
         System.out.print("Enter a username: ");
         
         String clientName = connInfo.nextLine();
+        ChatClient client = new ChatClient(clientName);
         
-        RequestJoin(hostIP, clientName);
+        //client.RequestJoin(hostIP, clientName);
     }
     
 }

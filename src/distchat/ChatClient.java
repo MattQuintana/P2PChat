@@ -37,16 +37,20 @@ public class ChatClient implements Runnable{
         // Luis 
     }
     
-    void broadcastMessage()
+    void broadcastMessage(String message)
     {
         // for every address in the table do an output stream to other client
         for (Socket client: other_clients)
         {
             try(
-                PrintWriter toClient = 
-                new PrintWriter(clientSocket.getOutputStream(), true);
-
+                PrintWriter toClient = new PrintWriter(clientSocket.getOutputStream(), true);
             )
+            {
+                toClient.println(message);
+            }
+            catch(Exception e){
+                System.out.println("Could not connect");
+            }
                 
         }
         

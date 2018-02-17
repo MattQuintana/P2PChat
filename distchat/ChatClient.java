@@ -37,6 +37,15 @@ public class ChatClient implements Runnable{
         // Luis 
     }
     
+    void typeMessage()
+    {
+    	Scanner message = new Scanner(System.in);
+    	System.out.print("Message: ");
+    	
+    	String userInput = message.nextLine();
+    	broadcastMessage(userInput);
+    }
+    
     void broadcastMessage(String message)
     {
         // for every address in the table do an output stream to other client
@@ -49,7 +58,7 @@ public class ChatClient implements Runnable{
                 toClient.println(message);
             }
             catch(Exception e){
-                System.out.println("Could not connect");
+                System.out.println("** UNABLE TO SEND MESSAGE **");
             }
                 
         }

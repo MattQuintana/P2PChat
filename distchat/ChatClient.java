@@ -29,7 +29,7 @@ public class ChatClient implements Runnable{
     
     public ChatClient(String userName)
     {
-        
+        // Something something
     }
     
     void requestJoin(String ip, String usrname)

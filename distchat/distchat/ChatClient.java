@@ -15,30 +15,37 @@ import java.util.*;
 public class ChatClient{
     // Information needed to be saved for the client
     String username; 
-    //String ip_addr;
-    //Socket clientSocket;
-    int PORT = 12345;
+    String ip_addr;
+    int port;
+    //int PORT = 12345;
+    ServerSocket chat_socket;
     
     // Holding all information of every connected client
     Map<String, Integer> ip_table = new HashMap<String, Integer>();
     List<Socket> other_clients = new ArrayList<Socket>();
     
-    public ChatClient(String userName)
+    public ChatClient(String userName) throws Exception
     {
         // Something something
-        this.username = userName;
-        
+        this.username = userName;     
+        chat_socket = new ServerSocket(0);
+        String full_ip_string = chat_socket.getLocalSocketAddress().toString().replace("/", ":");
+        ip_addr = full_ip_string.split(":")[0];
+        port = Integer.parseInt(full_ip_string.split(":")[2]);
+        System.out.println("Your IP: " + ip_addr);
+        System.out.println("Your Port: " + port);
     }
     
+    /*
     void requestJoin(String ip, String username) throws Exception
     {
       // Luis 
       System.out.print("User tries to join ");
       Socket join_socket = new Socket(ip, PORT);
-    }
+    }*/
     
     
-    void closeConnection() throws Exception
+    void removeClosedConnections() throws Exception
     {
       // For whoever sent the close message, close their input socket 
       // Luis, basically close the socket and removing from IP list 
@@ -46,15 +53,13 @@ public class ChatClient{
       // Sending message to close connection
       String message = String.format("%s has disconnected.\n", username);
       //broadcastMessage(message);
-
-      //clientSocket.close();// close socket
-      Iterator<Socket> iteratorSpot = other_clients.iterator();
-      while (iteratorSpot.hasNext()) {
-        Socket current = iteratorSpot.next();
-        current.getInetAddress();
-        //if(username == current){
-          //iteratorSpot.remove();
-        //}
+      
+      for (Socket o_client : this.other_clients)
+      {
+          if (o_client.isClosed())
+          {
+              other_clients.remove(o_client);
+          }
       }
     }
     

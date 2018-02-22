@@ -28,10 +28,10 @@ public class WritingMessage implements Runnable{
     void broadcastMessage(String message)
     {
         // for every address in the table do an output stream to other client
-        for (Socket client: other_clients)
+        for (Socket o_client: other_clients)
         {
             try(
-                PrintWriter toClient = new PrintWriter(client.getOutputStream(), true);
+                PrintWriter toClient = new PrintWriter(o_client.getOutputStream(), true);
             )
             {
             	String finalMessage = String.format("%s: %s", username, message);
@@ -42,25 +42,33 @@ public class WritingMessage implements Runnable{
             }       
         }  
     }    
-    void typeMessage()
+    boolean typeMessage()
     {
     	// Looking for user input to make their message
     	Scanner message = new Scanner(System.in);
     	System.out.print("Message: ");
     	
     	String userInput = message.nextLine();
-    	broadcastMessage(userInput);
+        if (userInput.equals("./quit"))
+        {
+            // Do the quitting procedure here
+            String leave_message = String.format("%s has disconnected.\n", username);
+            broadcastMessage(leave_message);
+            return false;
+        }
+        else
+        {
+            broadcastMessage(userInput);
+            return true;
+        }
+    	
     }
     
     
     @Override
     public void run(){
-        
-        while(true)
-        {
-            typeMessage();
-        }
-    
+        System.out.println("Type ./quit to leave the chat. \n");
+        while(typeMessage());
     }
     
 }

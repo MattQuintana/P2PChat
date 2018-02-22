@@ -22,33 +22,48 @@ public class DistChat
      */
     public static void main(String[] args) throws Exception
     {
-        while(true)	//Infinite loop to handle accepting clients
+        Scanner connInfo = new Scanner(System.in);
+        // Looking for user input to get desired username
+        System.out.print("Enter a username: \n");
+        String clientName = connInfo.nextLine();
+        ChatClient new_client = new ChatClient(clientName);
+        
+        //Infinite loop to handle accepting clients
+        while(true)	
         {    
-            // Looking for user input to get desired IP
-            Scanner connInfo = new Scanner(System.in);
-            System.out.print("Enter an IP to connect to: \n");
+            System.out.println("Type ./start to start a chat or ./join to join an existing one.");
+            String choice = connInfo.nextLine();
 
-            String hostIP = connInfo.nextLine();
+            if (choice.equals("./join"))
+            {
+                while(true)
+                {
+                     // Looking for user input to get desired IP
+                     connInfo = new Scanner(System.in);
+                     System.out.print("Enter an IP to connect to: \n");
+                     String hostIP = connInfo.nextLine();
 
-            // Looking for user input to get desired username
-            connInfo = new Scanner(System.in);
-            System.out.print("Enter a username: \n");
-            String clientName = connInfo.nextLine();
-            
-            //ChatClient client = new ChatClient(clientName);
-            //client.username = clientName;
-
-            //client.requestJoin(hostIP, clientName);
-            
-            try{
-                ChatClient new_client = new ChatClient(clientName);
-                new_client.addClientSocket(hostIP, new_client.PORT);
+                     try{
+                         (new Thread(new WritingMessage(new_client))).start();
+                         (new Thread(new ReadingMessage(new_client))).start();
+                         //Spawn a new thread with the client socket
+                         break;
+                     }
+                     catch(Exception e){
+                         System.out.println("Could not connect");
+                     }
+                }
+                break;
+            }
+            else if(choice.equals("./start"))
+            {
                 (new Thread(new WritingMessage(new_client))).start();
                 (new Thread(new ReadingMessage(new_client))).start();
-                //Spawn a new thread with the client socket
+                break;
             }
-            catch(Exception e){
-                System.out.println("Could not connect");
+            else
+            {
+                System.out.println(choice + " is an invalid choice. ");
             }
         } 
     }

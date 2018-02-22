@@ -21,16 +21,18 @@ public class ReadingMessage implements Runnable {
     public ReadingMessage(ChatClient client)
     {
         this.client = client;
+        server_socket = client.chat_socket;
     }
     @Override
     public void run()
     {
+        //System.out.println("In reading thread.");
         while(true)
         {
             try
             {
-                server_socket = new ServerSocket(client.PORT);
-                Socket input_client = server_socket.accept();
+                Socket input_client = server_socket.accept();   
+                System.out.println("In try clause");
             }
             catch (Exception e)
             {
@@ -38,5 +40,4 @@ public class ReadingMessage implements Runnable {
             }
         }
     }
-    
 }

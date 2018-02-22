@@ -36,7 +36,8 @@ public class ChatClient implements Runnable{
     
     void requestJoin(String ip, String usrname)
     {
-        // Luis 
+      // Luis 
+      System.out.print("User tries to join ")
     }
     
     void typeMessage()
@@ -71,15 +72,21 @@ public class ChatClient implements Runnable{
     {
         // For whoever sent the close message, close their input socket 
         // Luis, basically close the socket and removing from IP list 
-    	
-    	// Sending message to close connection
-    	String message = String.format("%s has disconnected.\n", username);
-    	broadcastMessage(message);
-    	
-    	// LUIS, close connection below
-    	
+
+      // Sending message to close connection
+      String message = String.format("%s has disconnected.\n", username);
+      broadcastMessage(message);
+
+      clientSocket.close() ;// close socket
+      Iterator<Socket> iteratorSpot = other_clients.iterator();
+      while (iteratorSpot.hasNext()) {
+        Socket current = iteratorSpot.next();
+        if(username == current) {
+          iteratorSpot.remove();
+        }
+      }
     }
-    
+
     void acceptConnection(String ip_addr, int port)
     {
         

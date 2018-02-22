@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 // Making some test changes and some more stuff. 
 package distchat;
 
@@ -17,7 +11,7 @@ import java.util.*;
 
 /**
  *
- * @author Matt Q
+ * @author Matt Q, Luis M, Erik S
  */
 public class ChatClient implements Runnable{
 	// Information needed to be saved for the client
@@ -32,6 +26,7 @@ public class ChatClient implements Runnable{
     public ChatClient(String userName)
     {
         // Something something
+        this.username = userName;
     }
     
     void requestJoin(String ip, String usrname)
@@ -80,27 +75,37 @@ public class ChatClient implements Runnable{
     	
     }
     
-    void acceptConnection(String ip_addr, int port)
+    void addClientSocket(String ip_addr, int port)
     {
+        // If the IP isn't already in the table
+        if (!ip_table.containsKey(ip_addr))
+        {
+            // Add it in along with the port
+            ip_table.put(ip_addr, port);
+        }
         
+        // Create a new socket for the new client to connect to
+        try(
+            Socket new_connection = new Socket(ip_addr, port);
+        )
+        {
+            // Add it to our list of socket connections
+            other_clients.add(new_connection);
+        }
+        catch (Exception e)
+        {
+            System.out.println("Could not create socket to: %s".format(ip_addr));
+        }
     }
     
     void buildIPTable(Map<String, Integer> table)
     {
+        // 
         ip_table = table;
         
         for (Map.Entry<String, Integer> entry : ip_table.entrySet())
         {
-            try(
-                Socket new_connection = new Socket(entry.getKey(), entry.getValue());    
-                )
-            {
-            
-            }
-            catch (Exception e)
-            {
-                System.out.println("Could not create connection. ");
-            }
+            addClientSocket(entry.getKey(), entry.getValue());
         }
     }
     
@@ -108,11 +113,11 @@ public class ChatClient implements Runnable{
     public void run()
     {
         try(
-            //Set up a variable to send output
+            //Set up a writer for output
             PrintWriter toClient = 
                     new PrintWriter(clientSocket.getOutputStream(), true);
                 
-            //Set up a variable to read input
+            //Set up a reader for input
             BufferedReader fromClient = new BufferedReader(
                     new InputStreamReader(clientSocket.getInputStream()));
         )
@@ -133,20 +138,6 @@ public class ChatClient implements Runnable{
         catch(Exception e)
         {
             System.out.println("Could not connect");
-        }
-    }
-    
-    
-    void listen(int port)
-    {
-        while(true){    //Infinite loop to handle accepting clients
-            try(ServerSocket serverSocket = new ServerSocket(port);){
-                (new Thread(new ChatClient(serverSocket.accept()))).start();
-                //Spawn a new thread with the client socket
-            }
-            catch(Exception e){
-                System.out.println("Could not connect");
-            }
         }
     }
     

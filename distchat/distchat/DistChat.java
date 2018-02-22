@@ -5,8 +5,8 @@
  */
 package distchat;
 
-import java.net.ServerSocket;
 import java.util.Scanner;
+import java.net.*;
 
 /**
  *
@@ -16,40 +16,40 @@ import java.util.Scanner;
 // Hello world
 public class DistChat 
 {
-
 	
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) 
+    public static void main(String[] args) throws Exception
     {
         while(true)	//Infinite loop to handle accepting clients
         {    
             // Looking for user input to get desired IP
             Scanner connInfo = new Scanner(System.in);
-            System.out.print("Enter an IP to connect to: ");
+            System.out.print("Enter an IP to connect to: \n");
 
             String hostIP = connInfo.nextLine();
 
             // Looking for user input to get desired username
             connInfo = new Scanner(System.in);
-            System.out.print("Enter a username: ");
-
+            System.out.print("Enter a username: \n");
             String clientName = connInfo.nextLine();
-            ChatClient client = new ChatClient(clientName);
-            client.username = clientName;
+            
             //ChatClient client = new ChatClient(clientName);
+            //client.username = clientName;
 
-            //client.RequestJoin(hostIP, clientName);
-            try(ServerSocket serverSocket = new ServerSocket(port);){
-                (new Thread(new ChatClient(serverSocket.accept()))).start();
+            //client.requestJoin(hostIP, clientName);
+            
+            try{
+                ChatClient new_client = new ChatClient(clientName);
+                new_client.addClientSocket(hostIP, new_client.PORT);
+                (new Thread(new WritingMessage(new_client))).start();
+                (new Thread(new ReadingMessage(new_client))).start();
                 //Spawn a new thread with the client socket
             }
             catch(Exception e){
                 System.out.println("Could not connect");
             }
-        }
-        
+        } 
     }
-    
 }
